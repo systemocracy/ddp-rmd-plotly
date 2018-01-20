@@ -1,0 +1,43 @@
+---
+title: "ddp-rmd-plotly: R Markdown Presentation & Plotly assignment "
+author: "systemocracy"
+date: "January 19, 2018"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(plotly)
+```
+
+## Plotly scatter example
+
+```{r  echo = FALSE }
+p <- plot_ly(data = mtcars,
+  type = 'scatter',
+  x = ~wt,
+  y = ~mpg,
+  text = paste("Make: ", rownames(mtcars),
+               "<br>weight: ", mtcars$wt,
+               "<br>mpg: ", mtcars$mpg,
+               "<br>Cyl: ", mtcars$cyl),
+  hoverinfo = 'text',
+  mode = 'markers',
+  transforms = list(
+    list(
+      type = 'groupby',
+      groups = ~cyl,
+      styles = list(
+        list(target = 4, value = list(marker =list(color = 'blue' , name = '4 cyl'))),
+        list(target = 6, value = list(marker =list(color = 'red' , name = '6 cyl'))),
+        list(target = 8, value = list(marker =list(color = 'black' , name = '8 cyl')))
+      )
+      )
+    )
+  )  %>%
+  layout(title='weight vs. mpg')
+  
+p
+```
+
+
